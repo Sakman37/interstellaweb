@@ -6,7 +6,7 @@ import PricingCard from '@/components/ui/pricing-card';
 import Layout from '@/components/Layout/Layout';
 import { useLanguage } from '@/hooks/useLanguage';
 import { useScrollToTop } from '@/hooks/useScrollToTop';
-import bannerImage from '@/assets/bannerint.png';
+
 
 const Servicios = () => {
   useScrollToTop();
@@ -141,7 +141,7 @@ const Servicios = () => {
       <section className="py-20 relative overflow-hidden">
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20"
-          style={{ backgroundImage: `url(${bannerImage})` }}
+          style={{ backgroundImage: "url('/bannerint.png')" }}
         />
         <div className="container mx-auto px-4 text-center relative z-10">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
