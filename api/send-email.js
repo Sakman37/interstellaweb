@@ -21,6 +21,9 @@ export default async function handler(req, res) {
     });
   }
 
+  console.log('🔧 Debug - nodemailer object:', typeof nodemailer);
+  console.log('🔧 Debug - createTransport exists:', typeof nodemailer.createTransport);
+
   const { nombre, correo, motivo, mensaje } = req.body;
 
   // Validaciones
@@ -41,8 +44,8 @@ export default async function handler(req, res) {
   }
 
   try {
-    // Configuración del transporter con mejor manejo de errores
-    const transporter = nodemailer.createTransporter({
+    // CORRECCIÓN: usar createTransport en lugar de createTransporter
+    const transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST || 'smtp.maileroo.com',
       port: parseInt(process.env.SMTP_PORT) || 587,
       secure: false, // true para puerto 465, false para otros puertos
@@ -53,18 +56,21 @@ export default async function handler(req, res) {
       tls: {
         rejectUnauthorized: false
       },
-      // Agregar timeouts para evitar cuelgues
-      connectionTimeout: 10000, // 10 segundos
-      greetingTimeout: 5000,    // 5 segundos
-      socketTimeout: 10000      // 10 segundos
+      // Timeouts optimizados para Vercel
+      connectionTimeout: 30000, // 30 segundos
+      greetingTimeout: 30000,   // 30 segundos
+      socketTimeout: 30000      // 30 segundos
     });
 
-    // Verificar conexión (opcional, puede fallar en algunos servidores)
+    console.log('✅ Transporter creado exitosamente');
+
+    // Verificar conexión (opcional)
     try {
       await transporter.verify();
-      console.log('Conexión SMTP verificada');
+      console.log('✅ Conexión SMTP verificada');
     } catch (verifyError) {
-      console.log('Advertencia: No se pudo verificar la conexión SMTP, pero continuando...', verifyError.message);
+      console.log('⚠️ Advertencia: No se pudo verificar la conexión SMTP:', verifyError.message);
+      // Continuar de todas formas
     }
 
     // Configuración del email
@@ -77,7 +83,7 @@ export default async function handler(req, res) {
         process.env.TO_EMAIL_1 || 'sakman37xd@gmail.com',
         process.env.TO_EMAIL_2 || 'luisgcsma@gmail.com'
       ],
-      replyTo: correo, // Permite responder directamente al cliente
+      replyTo: correo,
       subject: `🚀 Nuevo contacto: ${motivo}`,
       html: `
         <!DOCTYPE html>
@@ -167,21 +173,32 @@ export default async function handler(req, res) {
       `
     };
 
-    // Enviar el email con mejor manejo de errores
+    console.log('📧 Intentando enviar email...');
+
+    // Enviar el email
     const info = await transporter.sendMail(mailOptions);
     
-    console.log('Email enviado exitosamente:', info.messageId);
+    console.log('✅ Email enviado exitosamente:', {
+      messageId: info.messageId,
+      accepted: info.accepted,
+      rejected: info.rejected
+    });
 
     res.status(200).json({
       success: true,
       message: 'Email enviado correctamente',
-      messageId: info.messageId
+      messageId: info.messageId,
+      timestamp: new Date().toISOString()
     });
 
   } catch (error) {
-    console.error('Error detallado al enviar email:', error);
+    console.error('❌ Error detallado al enviar email:', {
+      message: error.message,
+      code: error.code,
+      stack: error.stack
+    });
     
-    // Manejo específico de errores con más detalle
+    // Manejo específico de errores
     let errorMessage = 'Error interno del servidor';
     let statusCode = 500;
     
@@ -197,15 +214,19 @@ export default async function handler(req, res) {
     } else if (error.message.includes('timeout')) {
       errorMessage = 'Timeout al conectar con el servidor de email.';
       statusCode = 504;
+    } else if (error.code === 'ENOTFOUND') {
+      errorMessage = 'No se pudo encontrar el servidor SMTP.';
+      statusCode = 503;
     }
 
     res.status(statusCode).json({
       success: false,
       message: errorMessage,
+      errorCode: error.code,
       timestamp: new Date().toISOString(),
+      // Solo incluir detalles en desarrollo
       ...(process.env.NODE_ENV === 'development' && { 
         error: error.message,
-        code: error.code,
         stack: error.stack
       })
     });
