@@ -116,7 +116,7 @@ const DesarrolloWeb = () => {
       <section className="py-20 relative overflow-hidden">
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20"
-          style={{ backgroundImage: 'url(/src/assets/bannerint.png)' }}
+          style={{ backgroundImage: 'url(/bannerint.png)' }}
         />
         <div className="container mx-auto px-4 text-center relative z-10">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
