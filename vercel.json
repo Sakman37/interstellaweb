@@ -4,6 +4,5 @@
       "source": "/(.*)",
       "destination": "/index.html"
     }
-  ],
-  "errorPage": "404.html"
+  ]
 }
