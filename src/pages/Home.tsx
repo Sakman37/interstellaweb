@@ -1,50 +1,95 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Globe, Palette, Code, Bot, Star, Rocket } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import ServiceCard from '@/components/ui/service-card';
 import TestimonialCard from '@/components/ui/testimonial-card';
 import Layout from '@/components/Layout/Layout';
+import { useLanguage } from '@/hooks/useLanguage';
+import { useScrollToTop } from '@/hooks/useScrollToTop';
+import { supabase } from '@/integrations/supabase/client';
+import { Project } from '@/pages/Admin';
+
+// Componente para mostrar imagen del proyecto con fallback
+const ProjectImage = ({ project }: { project: Project }) => {
+  const [imgError, setImgError] = React.useState(false);
+
+  if (!imgError && project.image_url) {
+    return (
+      <div className="aspect-video bg-gradient-to-br from-secondary to-accent/20 rounded-lg mb-4 flex items-center justify-center relative overflow-hidden">
+        {project.image_url.includes('video') ? (
+          <video
+            src={project.image_url}
+            className="w-full h-full object-cover"
+            onError={() => setImgError(true)}
+          />
+        ) : (
+          <img
+            src={project.image_url}
+            alt={project.title}
+            className="w-full h-full object-cover"
+            onError={() => setImgError(true)}
+          />
+        )}
+      </div>
+    );
+  }
+
+  return (
+    <div className="aspect-video bg-gradient-to-br from-secondary to-accent/20 rounded-lg mb-4 flex items-center justify-center">
+      <Globe className="h-12 w-12 text-accent" />
+    </div>
+  );
+};
 
 const Home = () => {
+  useScrollToTop();
+  const { t } = useLanguage();
+  const [portfolioItems, setPortfolioItems] = useState<Project[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchRecentProjects();
+  }, []);
+
+  const fetchRecentProjects = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('projects')
+        .select('*')
+        .eq('is_published', true)
+        .order('updated_at', { ascending: false })
+        .limit(3);
+
+      if (error) throw error;
+      setPortfolioItems(data || []);
+    } catch (error) {
+      console.error('Error fetching recent projects:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const services = [
     {
       icon: Globe,
-      title: "Desarrollo de Plataformas Web",
-      description: "E-commerce, tiendas online, WordPress y sitios corporativos que impulsan tu negocio al siguiente nivel digital."
+      title: t('services.webDevelopment'),
+      description: t('services.webDevelopmentDesc')
     },
     {
       icon: Palette,
-      title: "Diseño Web Personalizado",
-      description: "Interfaces futuristas y experiencias únicas que conectan con tu audiencia y reflejan la esencia de tu marca."
+      title: t('services.customDesign'),
+      description: t('services.customDesignDesc')
     },
     {
       icon: Code,
-      title: "Software Personalizado",
-      description: "Aplicaciones web, sistemas de gestión y plataformas SaaS desarrolladas específicamente para tus necesidades."
+      title: t('services.customSoftware'),
+      description: t('services.customSoftwareDesc')
     },
     {
       icon: Bot,
-      title: "Chatbots y Automatizaciones",
-      description: "Inteligencia artificial que optimiza procesos, mejora la atención al cliente y automatiza tareas repetitivas."
-    }
-  ];
-
-  const portfolioItems = [
-    {
-      title: "E-commerce Galáctico",
-      description: "Tienda online con sistema de pagos integrado y gestión de inventario automatizada.",
-      image: "/placeholder-ecommerce.jpg"
-    },
-    {
-      title: "Dashboard Empresarial",
-      description: "Sistema de gestión integral con analytics en tiempo real y reportes automatizados.",
-      image: "/placeholder-dashboard.jpg"
-    },
-    {
-      title: "App Móvil Innovadora",
-      description: "Aplicación multiplataforma con funcionalidades avanzadas y diseño intuitivo.",
-      image: "/placeholder-mobile.jpg"
+      title: t('services.chatbots'),
+      description: t('services.chatbotsDesc')
     }
   ];
 
@@ -60,6 +105,12 @@ const Home = () => {
   const whatsappMessage = encodeURIComponent("Hola, estoy interesado en sus servicios de desarrollo web 🚀");
   const whatsappUrl = `https://wa.me/573127877182?text=${whatsappMessage}`;
 
+  // Función para truncar descripción
+  const truncateDescription = (description: string, maxLength: number = 120) => {
+    if (description.length <= maxLength) return description;
+    return description.substring(0, maxLength).trim() + '...';
+  };
+
   return (
     <Layout>
       {/* Hero Section */}
@@ -68,28 +119,27 @@ const Home = () => {
           <div className="animate-slide-in-up">
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6">
               <span className="bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
-                Llevamos tu negocio
+                {t('home.hero.title1')}
               </span>
               <br />
-              <span className="text-foreground">al espacio digital</span>
+              <span className="text-foreground">{t('home.hero.title2')}</span>
             </h1>
             
             <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-3xl mx-auto leading-relaxed">
-              Asesoramiento, acompañamiento y soluciones tecnológicas a medida que 
-              transforman ideas en realidades digitales extraordinarias.
+              {t('home.hero.subtitle')}
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link to="/contacto">
                 <Button className="hero-button text-lg px-8 py-4">
-                  Empezar Ahora
+                  {t('home.hero.startNow')}
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
               </Link>
               
               <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
                 <Button variant="outline" className="text-lg px-8 py-4 border-accent/50 text-accent hover:bg-accent/10">
-                  Consulta Gratuita
+                  {t('home.hero.freeConsultation')}
                   <Rocket className="ml-2 h-5 w-5" />
                 </Button>
               </a>
@@ -109,11 +159,11 @@ const Home = () => {
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
               <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                Lo que ofrecemos
+                {t('home.services.title')}
               </span>
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Asesoramiento, acompañamiento y soluciones tecnológicas a medida
+              {t('home.services.subtitle')}
             </p>
           </div>
           
@@ -133,11 +183,11 @@ const Home = () => {
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
               <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                Aplicaciones Tecnológicas
+                {t('home.tech.title')}
               </span>
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Tecnología de vanguardia para impulsar tu presencia digital
+              {t('home.tech.subtitle')}
             </p>
           </div>
           
@@ -171,36 +221,45 @@ const Home = () => {
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
               <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                Nuestro Portafolio
+                {t('home.portfolio.title')}
               </span>
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Proyectos que han llevado a nuestros clientes hacia el éxito digital
+              {t('home.portfolio.subtitle')}
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {portfolioItems.map((item, index) => (
-              <div key={index} className="animate-slide-in-up" style={{ animationDelay: `${index * 0.1}s` }}>
-                <div className="nebula-card p-6 h-full">
-                  <div className="aspect-video bg-gradient-to-br from-secondary to-accent/20 rounded-lg mb-4 flex items-center justify-center">
-                    <Globe className="h-12 w-12 text-accent" />
+          {loading ? (
+            <div className="flex justify-center items-center py-20">
+              <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-primary"></div>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {portfolioItems.map((item, index) => (
+                <div key={item.id} className="animate-slide-in-up" style={{ animationDelay: `${index * 0.1}s` }}>
+                  <div className="nebula-card p-6 h-full">
+                    <ProjectImage project={item} />
+                    <div className="mb-3">
+                      <span className="px-2 py-1 text-xs bg-accent/20 text-accent rounded-full">
+                        {item.category}
+                      </span>
+                    </div>
+                    <h3 className="text-xl font-semibold text-foreground mb-3">
+                      {item.title}
+                    </h3>
+                    <p className="text-muted-foreground">
+                      {truncateDescription(item.description)}
+                    </p>
                   </div>
-                  <h3 className="text-xl font-semibold text-foreground mb-3">
-                    {item.title}
-                  </h3>
-                  <p className="text-muted-foreground">
-                    {item.description}
-                  </p>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
           
           <div className="text-center mt-12">
             <Link to="/portafolio">
               <Button className="hero-button">
-                Ver Más Proyectos
+                {t('home.portfolio.viewMore')}
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </Link>
@@ -214,7 +273,7 @@ const Home = () => {
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
               <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                Lo que dicen nuestros clientes
+                {t('home.testimonials.title')}
               </span>
             </h2>
             <div className="flex justify-center space-x-1 mb-4">
@@ -237,26 +296,25 @@ const Home = () => {
             <div className="nebula-card p-12 max-w-4xl mx-auto">
               <h2 className="text-3xl md:text-4xl font-bold mb-6">
                 <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                  ¿Listo para conquistar el universo digital?
+                  {t('home.cta.title')}
                 </span>
               </h2>
               
               <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-                Únete a las empresas que ya han dado el salto cuántico hacia el éxito. 
-                Tu nave espacial digital está esperando.
+                {t('home.cta.subtitle')}
               </p>
               
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
                   <Button className="hero-button text-lg px-8 py-4">
-                    Despegar Ahora 🚀
+                    {t('home.cta.takeOff')}
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
                 </a>
                 
                 <Link to="/servicios">
                   <Button variant="outline" className="text-lg px-8 py-4 border-accent/50 text-accent hover:bg-accent/10">
-                    Explorar Servicios
+                    {t('home.cta.exploreServices')}
                   </Button>
                 </Link>
               </div>

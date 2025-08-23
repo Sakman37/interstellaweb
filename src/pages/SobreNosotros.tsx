@@ -3,36 +3,41 @@ import { Rocket, Target, Eye, ArrowRight, Star, Users, Code, Globe } from 'lucid
 import { Button } from '@/components/ui/button';
 import Layout from '@/components/Layout/Layout';
 import { Link } from 'react-router-dom';
+import { useLanguage } from '@/hooks/useLanguage';
+import { useScrollToTop } from '@/hooks/useScrollToTop';
 
 const SobreNosotros = () => {
+  useScrollToTop();
+  const { t } = useLanguage();
+
   const values = [
     {
       icon: Rocket,
-      title: "Innovación Espacial",
-      description: "Exploramos constantemente nuevas tecnologías y metodologías para ofrecer soluciones que van más allá de lo convencional."
+      title: t('about.values.innovation'),
+      description: t('about.values.innovationDesc')
     },
     {
       icon: Star,
-      title: "Excelencia Estelar",
-      description: "Cada proyecto es una oportunidad para superar expectativas y crear experiencias digitales que brillan como estrellas."
+      title: t('about.values.excellence'),
+      description: t('about.values.excellenceDesc')
     },
     {
       icon: Users,
-      title: "Colaboración Galáctica",
-      description: "Trabajamos codo a codo con nuestros clientes, formando equipos unidos hacia el éxito del proyecto."
+      title: t('about.values.collaboration'),
+      description: t('about.values.collaborationDesc')
     },
     {
       icon: Code,
-      title: "Código Cuántico",
-      description: "Escribimos código limpio, escalable y eficiente que impulsa el rendimiento y la evolución continua."
+      title: t('about.values.code'),
+      description: t('about.values.codeDesc')
     }
   ];
 
   const stats = [
-    { number: "50+", label: "Proyectos Completados" },
-    { number: "30+", label: "Clientes Satisfechos" },
-    { number: "100%", label: "Proyectos Entregados" },
-    { number: "24/7", label: "Soporte Técnico" }
+    { number: "50+", label: t('about.stats.projects') },
+    { number: "30+", label: t('about.stats.clients') },
+    { number: "100%", label: t('about.stats.delivered') },
+    { number: "24/7", label: t('about.stats.support') }
   ];
 
   const whatsappMessage = encodeURIComponent("Hola, quiero conocer más sobre InterstellaWebs 🚀");
@@ -45,11 +50,11 @@ const SobreNosotros = () => {
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
             <span className="bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
-              Sobre InterstellaWebs
+              {t('about.title')}
             </span>
           </h1>
           <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-3xl mx-auto">
-            Navegamos el vasto universo digital para crear soluciones que trascienden fronteras
+            {t('about.subtitle')}
           </p>
         </div>
       </section>
@@ -66,13 +71,10 @@ const SobreNosotros = () => {
                   <div className="cosmic-glow">
                     <Target className="h-12 w-12 text-primary" />
                   </div>
-                  <h2 className="text-3xl font-bold text-foreground">Nuestra Misión</h2>
+                  <h2 className="text-3xl font-bold text-foreground">{t('about.mission')}</h2>
                 </div>
                 <p className="text-lg text-muted-foreground leading-relaxed">
-                  Transformar ideas brillantes en realidades digitales extraordinarias, 
-                  proporcionando a nuestros clientes las herramientas tecnológicas necesarias 
-                  para navegar exitosamente en el cosmos digital y alcanzar nuevas dimensiones 
-                  de crecimiento empresarial.
+                  {t('about.missionText')}
                 </p>
               </div>
             </div>
@@ -84,12 +86,10 @@ const SobreNosotros = () => {
                   <div className="cosmic-glow">
                     <Eye className="h-12 w-12 text-accent" />
                   </div>
-                  <h2 className="text-3xl font-bold text-foreground">Nuestra Visión</h2>
+                  <h2 className="text-3xl font-bold text-foreground">{t('about.vision')}</h2>
                 </div>
                 <p className="text-lg text-muted-foreground leading-relaxed">
-                  Ser la nave nodriza que guíe a las empresas hacia el éxito en el universo digital, 
-                  reconocidos como pioneros en innovación tecnológica y excelencia en desarrollo web, 
-                  expandiendo fronteras y creando conexiones intergalácticas entre marcas y usuarios.
+                  {t('about.visionText')}
                 </p>
               </div>
             </div>
@@ -103,11 +103,11 @@ const SobreNosotros = () => {
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
               <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                Nuestros Valores Estelares
+                {t('about.values.title')}
               </span>
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Los principios que guían nuestra travesía por el cosmos digital
+              {t('about.values.subtitle')}
             </p>
           </div>
           
@@ -139,7 +139,7 @@ const SobreNosotros = () => {
               <div className="text-center mb-12">
                 <h2 className="text-3xl md:text-4xl font-bold mb-4">
                   <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                    Nuestro Impacto Galáctico
+                    {t('about.stats.title')}
                   </span>
                 </h2>
               </div>
@@ -168,7 +168,7 @@ const SobreNosotros = () => {
             <div className="text-center mb-12">
               <h2 className="text-3xl md:text-4xl font-bold mb-6">
                 <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                  Nuestra Historia Espacial
+                  {t('about.story.title')}
                 </span>
               </h2>
             </div>
@@ -206,7 +206,7 @@ const SobreNosotros = () => {
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
               <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                Filosofía Intergaláctica
+                {t('about.philosophy.title')}
               </span>
             </h2>
           </div>
@@ -216,7 +216,7 @@ const SobreNosotros = () => {
               <div className="nebula-card p-8 text-center">
                 <Globe className="h-16 w-16 text-primary mx-auto mb-6" />
                 <blockquote className="text-xl font-medium text-foreground mb-4">
-                  "No hay límites en el espacio digital, solo nuevas fronteras por explorar"
+                  {t('about.philosophy.quote1')}
                 </blockquote>
                 <p className="text-muted-foreground">— Filosofía InterstellaWebs</p>
               </div>
@@ -226,7 +226,7 @@ const SobreNosotros = () => {
               <div className="nebula-card p-8 text-center">
                 <Rocket className="h-16 w-16 text-accent mx-auto mb-6" />
                 <blockquote className="text-xl font-medium text-foreground mb-4">
-                  "Cada proyecto es una nueva expedición hacia la excelencia digital"
+                  {t('about.philosophy.quote2')}
                 </blockquote>
                 <p className="text-muted-foreground">— Misión InterstellaWebs</p>
               </div>
@@ -242,26 +242,25 @@ const SobreNosotros = () => {
             <div className="nebula-card p-12 max-w-4xl mx-auto">
               <h2 className="text-3xl md:text-4xl font-bold mb-6">
                 <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                  ¿Listo para la próxima expedición?
+                  {t('about.cta.title')}
                 </span>
               </h2>
               
               <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-                Únete a nuestra misión de transformar el paisaje digital. 
-                Tu próxima aventura cósmica comienza con un simple clic.
+                {t('about.cta.subtitle')}
               </p>
               
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
                   <Button className="hero-button text-lg px-8 py-4">
-                    Despega con nosotros 🚀
+                    {t('about.cta.takeOff')}
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
                 </a>
                 
                 <Link to="/contacto">
                   <Button variant="outline" className="text-lg px-8 py-4 border-accent/50 text-accent hover:bg-accent/10">
-                    Iniciar Conversación
+                    {t('about.cta.startConversation')}
                   </Button>
                 </Link>
               </div>

@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Mail, Send, ArrowRight, Check, AlertCircle, Phone, MapPin, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Layout from '@/components/Layout/Layout';
+import { useLanguage } from '@/hooks/useLanguage';
+import { useScrollToTop } from '@/hooks/useScrollToTop';
 
 interface FormData {
   nombre: string;
@@ -106,6 +108,8 @@ const Label = ({
 };
 
 const Contacto = () => {
+  useScrollToTop();
+  const { t } = useLanguage();
   const [formData, setFormData] = useState<FormData>({
     nombre: '',
     correo: '',
@@ -337,11 +341,11 @@ const Contacto = () => {
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
             <span className="bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
-              Contáctanos
+              {t('contact.title')}
             </span>
           </h1>
           <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-3xl mx-auto">
-            Agenda una reunión, resolvemos dudas y diseñamos tu futuro digital
+            {t('contact.subtitle')}
           </p>
         </div>
       </section>
@@ -370,12 +374,12 @@ const Contacto = () => {
                   
                   <form onSubmit={handleSubmit} className="space-y-6">
                     <div className="space-y-2">
-                      <Label htmlFor="nombre">Nombre Completo</Label>
+                      <Label htmlFor="nombre">{t('contact.name')}</Label>
                       <Input
                         id="nombre"
                         name="nombre"
                         type="text"
-                        placeholder="Tu nombre completo"
+                        placeholder={t('contact.name')}
                         value={formData.nombre}
                         onChange={handleInputChange}
                         required
@@ -384,7 +388,7 @@ const Contacto = () => {
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="correo">Correo Electrónico</Label>
+                      <Label htmlFor="correo">{t('contact.email')}</Label>
                       <Input
                         id="correo"
                         name="correo"
@@ -398,7 +402,7 @@ const Contacto = () => {
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="motivo">Motivo de Contacto</Label>
+                      <Label htmlFor="motivo">{t('contact.subject')}</Label>
                       <select
                         id="motivo"
                         name="motivo"
@@ -418,11 +422,11 @@ const Contacto = () => {
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="mensaje">Mensaje</Label>
+                      <Label htmlFor="mensaje">{t('contact.message')}</Label>
                       <Textarea
                         id="mensaje"
                         name="mensaje"
-                        placeholder="Cuéntanos sobre tu proyecto, necesidades o cualquier pregunta que tengas..."
+                        placeholder={t('contact.message')}
                         value={formData.mensaje}
                         onChange={handleInputChange}
                         rows={6}
@@ -439,12 +443,12 @@ const Contacto = () => {
                       {isSubmitting ? (
                         <>
                           <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
-                          Enviando mensaje...
+                          {t('contact.sending')}
                         </>
                       ) : (
                         <>
                           <Send className="mr-2 h-5 w-5" />
-                          Enviar Mensaje
+                          {t('contact.send')}
                         </>
                       )}
                     </Button>

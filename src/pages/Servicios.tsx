@@ -15,23 +15,23 @@ const Servicios = () => {
   const services = [
     {
       icon: Globe,
-      title: "Desarrollo de Plataformas Web",
-      description: "Desde tiendas online hasta sistemas corporativos complejos, desarrollamos plataformas web que impulsan el crecimiento de tu negocio con tecnología de vanguardia."
+      title: t('services.webDevelopment'),
+      description: t('services.webDevelopmentDesc')
     },
     {
       icon: Palette,
-      title: "Diseño Web Personalizado",
-      description: "Creamos experiencias digitales únicas que reflejan la identidad de tu marca. Diseños responsivos, modernos y optimizados para conversión."
+      title: t('services.customDesign'),
+      description: t('services.customDesignDesc')
     },
     {
       icon: Code,
-      title: "Software Personalizado",
-      description: "Aplicaciones web, sistemas de gestión, CRM, ERP y plataformas SaaS desarrolladas específicamente para optimizar los procesos de tu empresa."
+      title: t('services.customSoftware'),
+      description: t('services.customSoftwareDesc')
     },
     {
       icon: Bot,
-      title: "Chatbots y Automatizaciones",
-      description: "Implementamos inteligencia artificial para automatizar procesos, mejorar la atención al cliente y optimizar la eficiencia operacional."
+      title: t('services.chatbots'),
+      description: t('services.chatbotsDesc')
     }
   ];
 
@@ -161,7 +161,7 @@ const Servicios = () => {
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
               <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                Servicios Principales
+                {t('services.mainServices')}
               </span>
             </h2>
           </div>
@@ -182,7 +182,7 @@ const Servicios = () => {
                     </p>
                     <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
                       <Button className="hero-button">
-                        Consultar Ahora
+                        {t('services.consultNow')}
                         <ArrowRight className="ml-2 h-5 w-5" />
                       </Button>
                     </a>
@@ -200,11 +200,11 @@ const Servicios = () => {
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
               <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                Paquetes WordPress
+                {t('services.wordpressPackages')}
               </span>
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Soluciones completas y listas para despegar tu presencia digital
+              {t('services.wordpressSubtitle')}
             </p>
           </div>
           
@@ -224,11 +224,11 @@ const Servicios = () => {
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
               <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                Tecnologías Modernas
+                {t('services.modernTech')}
               </span>
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Desarrollos avanzados con las tecnologías más innovadoras del mercado
+              {t('services.modernSubtitle')}
             </p>
           </div>
           
@@ -243,8 +243,8 @@ const Servicios = () => {
                     {service.description}
                   </p>
                   
-                  <div className="mb-6">
-                    <p className="text-sm text-muted-foreground mb-3">Tecnologías:</p>
+                   <div className="mb-6">
+                     <p className="text-sm text-muted-foreground mb-3">{t('common.technologies')}:</p>
                     <div className="flex flex-wrap gap-2">
                       {service.technologies.map((tech, techIndex) => (
                         <span 
@@ -257,12 +257,12 @@ const Servicios = () => {
                     </div>
                   </div>
                   
-                  <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
-                    <Button className="hero-button w-full">
-                      Solicitar Cotización
-                      <ArrowRight className="ml-2 h-5 w-5" />
-                    </Button>
-                  </a>
+                   <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
+                     <Button className="hero-button w-full">
+                       {t('services.requestQuote')}
+                       <ArrowRight className="ml-2 h-5 w-5" />
+                     </Button>
+                   </a>
                 </div>
               </div>
             ))}
@@ -277,19 +277,18 @@ const Servicios = () => {
             <div className="nebula-card p-12 max-w-4xl mx-auto">
               <h2 className="text-3xl md:text-4xl font-bold mb-6">
                 <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                  ¿No encuentras lo que buscas?
+                  {t('services.cta.title')}
                 </span>
               </h2>
               
               <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-                Desarrollamos soluciones personalizadas para cada necesidad. 
-                Conversemos sobre tu proyecto y creemos algo extraordinario juntos.
+                {t('services.cta.subtitle')}
               </p>
               
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
                   <Button className="hero-button text-lg px-8 py-4">
-                    Consulta Personalizada 🚀
+                    {t('services.cta.customConsultation')}
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
                 </a>
