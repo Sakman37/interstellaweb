@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Página no encontrada | Interstella Webs</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a3a 100%);
+            color: #e5e5e7;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow: hidden;
+        }
+        
+        .container {
+            text-align: center;
+            max-width: 800px;
+            width: 100%;
+        }
+        
+        .cosmic-404 {
+            position: relative;
+            width: 280px;
+            height: 280px;
+            perspective: 200px;
+            margin: 0 auto 3rem;
+        }
+
+        .orbit {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            border-radius: 50%;
+            border-style: solid;
+            transform-origin: 50% 50%;
+            animation-timing-function: cubic-bezier(0.49, 0.06, 0.43, 0.85);
+            animation-iteration-count: infinite;
+            animation-duration: 3000ms;
+        }
+
+        .orbit-1 {
+            width: 180px;
+            height: 180px;
+            margin-top: -90px;
+            margin-left: -90px;
+            border-width: 6px;
+            border-color: #6366f1 transparent #6366f1 transparent;
+            transform: rotateX(60deg) rotateY(20deg) rotateZ(0deg);
+            animation-name: orbit1;
+        }
+
+        .orbit-2 {
+            width: 220px;
+            height: 220px;
+            margin-top: -110px;
+            margin-left: -110px;
+            border-width: 4px;
+            border-color: #a855f7 transparent #a855f7 transparent;
+            transform: rotateX(60deg) rotateY(20deg) rotateZ(120deg);
+            animation-name: orbit2;
+            animation-delay: 300ms;
+        }
+
+        .orbit-3 {
+            width: 260px;
+            height: 260px;
+            margin-top: -130px;
+            margin-left: -130px;
+            border-width: 3px;
+            border-color: #ec4899 transparent #ec4899 transparent;
+            transform: rotateX(60deg) rotateY(20deg) rotateZ(240deg);
+            animation-name: orbit3;
+            animation-delay: 600ms;
+        }
+
+        .center-404 {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 120px;
+            height: 120px;
+            margin-top: -60px;
+            margin-left: -60px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #6366f1, #a855f7, #ec4899);
+            box-shadow: 
+                0 0 30px rgba(99, 102, 241, 0.5),
+                0 0 60px rgba(168, 85, 247, 0.3),
+                0 0 90px rgba(236, 72, 153, 0.2);
+            animation: pulse 2s ease-in-out infinite;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: white;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+        }
+
+        .message-card {
+            background: rgba(30, 41, 59, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(71, 85, 105, 0.3);
+            border-radius: 1rem;
+            padding: 3rem 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 
+                0 0 0 1px rgba(99, 102, 241, 0.1),
+                0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #6366f1, #a855f7, #ec4899);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradient-shift 3s ease-in-out infinite;
+            letter-spacing: 0.1em;
+        }
+        
+        .description {
+            font-size: 1.25rem;
+            color: #94a3b8;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+        
+        .buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, #6366f1, #a855f7);
+            color: white;
+            text-decoration: none;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 40px rgba(99, 102, 241, 0.3);
+        }
+        
+        .button-secondary {
+            background: transparent;
+            border: 2px solid rgba(168, 85, 247, 0.5);
+            color: #a855f7;
+        }
+        
+        .button-secondary:hover {
+            background: rgba(168, 85, 247, 0.1);
+            border-color: #a855f7;
+        }
+        
+        .floating-elements {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .floating-element {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.3), transparent);
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .floating-element:nth-child(1) {
+            width: 80px;
+            height: 80px;
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+        
+        .floating-element:nth-child(2) {
+            width: 60px;
+            height: 60px;
+            top: 60%;
+            right: 15%;
+            animation-delay: 2s;
+        }
+        
+        .floating-element:nth-child(3) {
+            width: 40px;
+            height: 40px;
+            top: 30%;
+            right: 25%;
+            animation-delay: 4s;
+        }
+
+        @keyframes orbit1 {
+            0% {
+                transform: rotateX(60deg) rotateY(20deg) rotateZ(0deg);
+                border-color: #6366f1 transparent #6366f1 transparent;
+            }
+            33% {
+                transform: rotateX(40deg) rotateY(40deg) rotateZ(120deg);
+                border-color: #8b87f9 transparent #8b87f9 transparent;
+            }
+            66% {
+                transform: rotateX(20deg) rotateY(60deg) rotateZ(240deg);
+                border-color: #b0a8fb transparent #b0a8fb transparent;
+            }
+            100% {
+                transform: rotateX(60deg) rotateY(20deg) rotateZ(360deg);
+                border-color: #6366f1 transparent #6366f1 transparent;
+            }
+        }
+
+        @keyframes orbit2 {
+            0% {
+                transform: rotateX(60deg) rotateY(20deg) rotateZ(120deg);
+                border-color: #a855f7 transparent #a855f7 transparent;
+            }
+            33% {
+                transform: rotateX(40deg) rotateY(40deg) rotateZ(240deg);
+                border-color: #b877f8 transparent #b877f8 transparent;
+            }
+            66% {
+                transform: rotateX(20deg) rotateY(60deg) rotateZ(360deg);
+                border-color: #c899fa transparent #c899fa transparent;
+            }
+            100% {
+                transform: rotateX(60deg) rotateY(20deg) rotateZ(480deg);
+                border-color: #a855f7 transparent #a855f7 transparent;
+            }
+        }
+
+        @keyframes orbit3 {
+            0% {
+                transform: rotateX(60deg) rotateY(20deg) rotateZ(240deg);
+                border-color: #ec4899 transparent #ec4899 transparent;
+            }
+            33% {
+                transform: rotateX(40deg) rotateY(40deg) rotateZ(360deg);
+                border-color: #ef6aad transparent #ef6aad transparent;
+            }
+            66% {
+                transform: rotateX(20deg) rotateY(60deg) rotateZ(480deg);
+                border-color: #f28cc1 transparent #f28cc1 transparent;
+            }
+            100% {
+                transform: rotateX(60deg) rotateY(20deg) rotateZ(600deg);
+                border-color: #ec4899 transparent #ec4899 transparent;
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 
+                    0 0 30px rgba(99, 102, 241, 0.5),
+                    0 0 60px rgba(168, 85, 247, 0.3),
+                    0 0 90px rgba(236, 72, 153, 0.2);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 
+                    0 0 45px rgba(99, 102, 241, 0.7),
+                    0 0 90px rgba(168, 85, 247, 0.5),
+                    0 0 135px rgba(236, 72, 153, 0.3);
+            }
+        }
+
+        @keyframes gradient-shift {
+            0%, 100% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+        
+        @keyframes float {
+            0%, 100% { 
+                transform: translateY(0px) scale(1);
+                opacity: 0.3;
+            }
+            50% { 
+                transform: translateY(-20px) scale(1.1);
+                opacity: 0.6;
+            }
+        }
+        
+        @media (max-width: 640px) {
+            .cosmic-404 {
+                width: 200px;
+                height: 200px;
+            }
+            
+            .orbit-1 {
+                width: 120px;
+                height: 120px;
+                margin-top: -60px;
+                margin-left: -60px;
+            }
+            
+            .orbit-2 {
+                width: 150px;
+                height: 150px;
+                margin-top: -75px;
+                margin-left: -75px;
+            }
+            
+            .orbit-3 {
+                width: 180px;
+                height: 180px;
+                margin-top: -90px;
+                margin-left: -90px;
+            }
+            
+            .center-404 {
+                width: 80px;
+                height: 80px;
+                margin-top: -40px;
+                margin-left: -40px;
+                font-size: 1.8rem;
+            }
+            
+            .title {
+                font-size: 2rem;
+            }
+            
+            .description {
+                font-size: 1.1rem;
+            }
+            
+            .message-card {
+                padding: 2rem 1.5rem;
+            }
+            
+            .buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .button {
+                width: 100%;
+                max-width: 280px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-elements">
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+    </div>
+    
+    <div class="container">
+        <div class="cosmic-404">
+            <div class="orbit orbit-1"></div>
+            <div class="orbit orbit-2"></div>
+            <div class="orbit orbit-3"></div>
+            <div class="center-404">404</div>
+        </div>
+        
+        <div class="message-card">
+            <h1 class="title">PÁGINA NO ENCONTRADA</h1>
+            <p class="description">
+                Esta página se perdió en el espacio interestelar. 
+                Te ayudamos a regresar a territorio conocido.
+            </p>
+            
+            <div class="buttons">
+                <a href="/" class="button">
+                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
+                    </svg>
+                    Ir al inicio
+                </a>
+                
+                <button onclick="history.back()" class="button button-secondary">
+                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 20 20">
+                        <!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Página no encontrada | Interstellar Webs</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a3a 100%);
+            color: #e5e5e7;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .container {
+            text-align: center;
+            max-width: 600px;
+        }
+        
+        .error-code {
+            font-size: 8rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #6366f1, #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 2rem;
+            animation: pulse 2s infinite;
+        }
+        
+        .title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #6366f1, #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .description {
+            font-size: 1.25rem;
+            color: #9ca3af;
+            margin-bottom: 3rem;
+            line-height: 1.6;
+        }
+        
+        .button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, #6366f1, #a855f7);
+            color: white;
+            text-decoration: none;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 40px rgba(99, 102, 241, 0.3);
+        }
+        
+        .stars {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+        
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #6366f1;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+        
+        @media (max-width: 640px) {
+            .error-code {
+                font-size: 5rem;
+            }
+            .title {
+                font-size: 2rem;
+            }
+            .description {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars"></div>
+    <div class="container">
+        <div class="error-code">404</div>
+        <h1 class="title">Página no encontrada en el cosmos</h1>
+        <p class="description">
+            Esta página se perdió en el espacio interestelar. 
+            Te ayudamos a regresar a territorio conocido.
+        </p>
+        <a href="/" class="button">
+            <svg width="20" height="20" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
+            </svg>
+            Volver al inicio
+        </a>
+    </div>
+
+    <script>
+        // Create animated stars
+        function createStars() {
+            const starsContainer = document.querySelector('.stars');
+            const numberOfStars = 50;
+
+            for (let i = 0; i < numberOfStars; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+
+        createStars();
+
+        // Redirect after 10 seconds if no interaction
+        setTimeout(() => {
+            if (!document.hidden) {
+                window.location.href = '/';
+            }
+        }, 10000);
+    </script>
+</body>
+</html>
