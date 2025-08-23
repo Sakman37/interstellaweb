@@ -1,0 +1,20 @@
+{
+  "rewrites": [
+    {
+      "source": "/auth",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/admin",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/servicios/(.*)",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/((?!api/|_next/|favicon.ico|.*\\.).*))",
+      "destination": "/index.html"
+    }
+  ]
+}
