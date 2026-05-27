@@ -14,6 +14,42 @@ export type Database = {
   }
   public: {
     Tables: {
+      pdf_documents: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          is_published: boolean
+          pdf_url: string
+          slug: string
+          storage_path: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_published?: boolean
+          pdf_url: string
+          slug: string
+          storage_path: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_published?: boolean
+          pdf_url?: string
+          slug?: string
+          storage_path?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       projects: {
         Row: {
           case_study_url: string | null

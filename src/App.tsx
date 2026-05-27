@@ -13,6 +13,7 @@ import Contacto from "./pages/Contacto";
 import Auth from "./pages/Auth";
 import Admin from "./pages/Admin";
 import NotFound from "./pages/NotFound";
+import PdfDocumentPage from "./pages/PdfDocumentPage";
 import DesarrolloWeb from "./pages/services/DesarrolloWeb";
 import DisenoWeb from "./pages/services/DisenoWeb";
 import SoftwarePersonalizado from "./pages/services/SoftwarePersonalizado";
@@ -40,6 +41,7 @@ const App = () => (
               <Route path="/contacto" element={<Contacto />} />
               <Route path="/auth" element={<Auth />} />
               <Route path="/admin" element={<Admin />} />
+              <Route path="/:slug" element={<PdfDocumentPage />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </PageWrapper>
